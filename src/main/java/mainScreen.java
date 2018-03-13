@@ -2,6 +2,13 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,22 +21,35 @@ public class mainScreen {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JButton btnNewButton;
+	static private JButton btnNewButton;
+	static String username = "";
+	static String password = "";
 
-	boolean state = false;
+	final static String file = "usrpssrd.txt";
+
+	static boolean state = false;
 	private static JTextField log;
 
 	public static void writeToLog(String message){
 		if(log == null) return;
-		
 		log.setText(message);	
+		btnNewButton.setText("start");
+		state = false;
 	}
-	
-	
+	public static void writeOk(){
+		if(log == null) return;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy ss:mm:HH");
+		LocalDateTime now = LocalDateTime.now();
+		String datetime = dtf.format(now); //2016/11/16 12:08:43
+		log.setText("log-in "+ datetime);
+	}
+
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		readFile();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -40,7 +60,53 @@ public class mainScreen {
 				}
 			}
 		});
+
 	}
+
+	private static void readFile() {
+		File f = new File(file);
+		if(!f.exists()){
+			writeToFile();
+			return;
+		}
+
+		FileReader fr;
+		BufferedReader br;
+		try {
+			fr = new FileReader(f);
+			br = new BufferedReader(fr);
+
+			String sr = br.readLine();
+			String ps = br.readLine();
+
+			username = sr;
+			password = ps;
+
+			fr.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+
+
+	private static void writeToFile(){
+		File f = new File(file);
+		FileWriter writer;
+
+		try {
+			writer = new FileWriter(f);
+			writer.write(username+'\n');
+			writer.write(password);
+
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	/**
 	 * Create the application.
@@ -70,6 +136,7 @@ public class mainScreen {
 		textField.setBounds(133, 30, 285, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		textField.setText(username);
 
 		JTextPane txtpnPassword = new JTextPane();
 		txtpnPassword.setEditable(false);
@@ -82,6 +149,7 @@ public class mainScreen {
 		textField_1.setBounds(133, 59, 285, 22);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
+		textField_1.setText(password);
 
 		btnNewButton = new JButton("start");
 		btnNewButton.setFocusable(false);
@@ -91,11 +159,15 @@ public class mainScreen {
 				if(!state){
 					state = true;
 					btnNewButton.setText("stop");
+					log.setText("");
 
-					String username = textField.getText();
-					String pass = textField_1.getText();
+					username = textField.getText();
+					password = textField_1.getText();
 
-					Main.start(username, pass);
+					writeToFile();
+
+					Main.start(username, password);
+
 				}
 
 				else if(state){
@@ -103,15 +175,13 @@ public class mainScreen {
 					btnNewButton.setText("start");
 					Main.stop();
 				}
-
-
-
-
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
-		
+
 		log = new JTextField();
+		log.setDisabledTextColor(Color.BLACK);
+		log.setSelectionColor(Color.WHITE);
 		log.setEnabled(false);
 		log.setBounds(133, 215, 149, 20);
 		frame.getContentPane().add(log);

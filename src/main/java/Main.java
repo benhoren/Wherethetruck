@@ -34,14 +34,14 @@ public class Main {
 		try{
 			tr.start();
 		}catch(Exception e){e.printStackTrace();
-		THROW();
+		stop();
 		return;}
 	}
 
 	public static void stop(){
-		play.active = false;
-
+	
 		try{
+			play.active = false;
 			play.turnOff();
 		}catch(Exception e){e.printStackTrace();}
 
