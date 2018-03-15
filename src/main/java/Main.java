@@ -1,11 +1,14 @@
 
 public class Main {
+	
+	
+	public static final String folder = "pfls"; 
 
 
 	public static void main(String[]args){
 
-		String username = "benhorenn@gmail.com";
-		String password = "b4546662";
+		String username = "";
+		String password = "";
 
 		start(username, password);
 

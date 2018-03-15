@@ -25,10 +25,10 @@ public class mainScreen {
 	static String username = "";
 	static String password = "";
 
-	final static String file = "usrpssrd.txt";
+	final static String file = Main.folder+"/usrpssrd.txt";
 
 	static boolean state = false;
-	private static JTextField log;
+	static JTextField log;
 
 	public static void writeToLog(String message){
 		if(log == null) return;
@@ -38,10 +38,10 @@ public class mainScreen {
 	}
 	public static void writeOk(){
 		if(log == null) return;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy ss:mm:HH");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String datetime = dtf.format(now); //2016/11/16 12:08:43
-		log.setText("log-in "+ datetime);
+		log.setText("logged-in "+ datetime);
 	}
 
 
@@ -128,8 +128,8 @@ public class mainScreen {
 		JTextPane txtpnUsername = new JTextPane();
 		txtpnUsername.setEditable(false);
 		txtpnUsername.setFocusable(false);
-		txtpnUsername.setBounds(10, 30, 105, 20);
-		txtpnUsername.setText("Email / username");
+		txtpnUsername.setBounds(5, 30, 118, 20);
+		txtpnUsername.setText("Email / Username");
 		frame.getContentPane().add(txtpnUsername);
 
 		textField = new JTextField();
@@ -141,7 +141,7 @@ public class mainScreen {
 		JTextPane txtpnPassword = new JTextPane();
 		txtpnPassword.setEditable(false);
 		txtpnPassword.setFocusable(false);
-		txtpnPassword.setBounds(52, 61, 63, 20);
+		txtpnPassword.setBounds(53, 59, 63, 20);
 		txtpnPassword.setText("password");
 		frame.getContentPane().add(txtpnPassword);
 
@@ -157,10 +157,12 @@ public class mainScreen {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!state){
+					
 					state = true;
 					btnNewButton.setText("stop");
 					log.setText("");
 
+					
 					username = textField.getText();
 					password = textField_1.getText();
 

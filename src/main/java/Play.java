@@ -12,6 +12,9 @@ public class Play extends Funcs implements Runnable{
 	String password;
 	boolean active;
 	WindowState window = WindowState.Invisible;
+	
+	
+	public static final int ttl = 1000*60*25;
 
 
 	public Play(String user, String pass){
@@ -23,17 +26,24 @@ public class Play extends Funcs implements Runnable{
 
 	public void run(){
 		while(active){
+			mainScreen.log.setText("working...");
 			System.out.print("log in.. ");
 
 			try{
 				logIn();
+				
+				if(!active){
+					turnOff();
+					break;
+				}
 			}catch(Exception e){
+				e.printStackTrace();
 				break;
 			}
+			turnOff();
 			mainScreen.writeOk();
 			System.out.println("log");
-			turnOff();
-			Funcs.sleep(1000*60*25);
+			Funcs.sleep(ttl);
 		}
 		System.out.println("end");
 	}
@@ -52,6 +62,9 @@ public class Play extends Funcs implements Runnable{
 			}
 			driver = startWebDriver(url, window);
 			WebElement bttn = driver.findElement(By.xpath("//*[@id='nav']//li[contains(@class,'bp-login-nav')]"));
+			
+//			WebElement logi = driver.findElement(By.xpath("//*[@id='menu-item-15347']/a"));
+			//*[@id='menu-item-15347']/a
 			
 			String ahref = bttn.findElement(By.tagName("a")).getAttribute("href");
 
@@ -82,20 +95,17 @@ public class Play extends Funcs implements Runnable{
 
 
 		}
-		catch(NoSuchElementException e){e.printStackTrace(); mainScreen.writeToLog("error"); Main.stop();}
-		catch(Exception e){e.printStackTrace();  Main.stop();}
+		catch(NoSuchElementException e){e.printStackTrace(); mainScreen.writeToLog("error"); this.active = false;}
+		catch(Exception e){e.printStackTrace(); this.active = false;}
 		
 		if(driver.getCurrentUrl().contains("wp-login")){
 			System.err.println("wrong password");
-			Main.THROW();
+			mainScreen.writeToLog("incorrect");	
+			this.active = false;
 		}
 
 	}
 
-
-	public void logOut(){
-
-	}
 
 	public void turnOff(){
 		System.out.println("turn off");

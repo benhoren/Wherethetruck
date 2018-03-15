@@ -43,7 +43,7 @@ public class Funcs {
 	 */
 	private WebDriver startVisibleWebDriver(String url){
 		WebDriver driver;
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", Main.folder+"/chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		//		options.addArguments("--headless");
 		options.addArguments("--start-maximized");
@@ -74,7 +74,7 @@ public class Funcs {
 		for(int i=0; i<3; i++){
 			try{
 				WebDriver driver;
-				System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+				System.setProperty("webdriver.chrome.driver", Main.folder+"/chromedriver.exe");
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--headless");
 				options.addArguments("--start-maximized");
@@ -102,7 +102,7 @@ public class Funcs {
 	 */
 	private WebDriver startDistanceWebDriver(String url){
 		WebDriver driver;
-		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", Main.folder+"/chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		//		options.addArguments("--headless");
 		options.addArguments("--start-maximized");

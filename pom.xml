@@ -5,7 +5,7 @@
 	<groupId>org.springframework</groupId>
 	<artifactId>WhereTheTruck</artifactId>
 	<packaging>jar</packaging>
-	<version>2.3</version>
+	<version>1.0</version>
 	
 
 
@@ -27,7 +27,7 @@
 							<transformers>
 						
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>Main</mainClass>
+									<mainClass>mainScreen</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
