@@ -185,7 +185,7 @@ public class mainScreen {
 		log.setDisabledTextColor(Color.BLACK);
 		log.setSelectionColor(Color.WHITE);
 		log.setEnabled(false);
-		log.setBounds(133, 215, 149, 20);
+		log.setBounds(133, 215, 256, 20);
 		frame.getContentPane().add(log);
 		log.setColumns(10);
 	}
